@@ -1,11 +1,20 @@
 import React, { Component } from "react";
 import qiniu from "qiniu-js";
 import mimes from "../utils/mimes";
+import "./react-qiniu-avatar-upload.css";
 
 class ReactQiniuAvatarUpload extends Component {
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
+
+    let allowImgFormat = ["jpg", "png"],
+      tempImgFormat =
+        allowImgFormat.indexOf(this.props.imgFormat) === -1
+          ? "jpg"
+          : this.props.imgFormat,
+      nMime = mimes[tempImgFormat];
+
     this.state = {
       file: null,
       // 浏览器是否支持触屏事件
@@ -13,6 +22,7 @@ class ReactQiniuAvatarUpload extends Component {
       // 原图片拖动事件初始值
       sourceImgMouseDown: {
         on: false,
+        mime: nMime,
         mX: 0, //鼠标按下的坐标
         mY: 0,
         x: 0, //scale原图坐标
@@ -48,7 +58,12 @@ class ReactQiniuAvatarUpload extends Component {
       sourceImg: null,
       sourceImgUrl: "",
       createImgUrl: "",
-    }
+      // 生成图片预览的容器大小
+      previewContainer: {
+        width: 100,
+        height: 100
+      }
+    };
   }
 
   static defaultProps = {
@@ -94,13 +109,44 @@ class ReactQiniuAvatarUpload extends Component {
       sourceImgMasking = this.sourceImgMasking,
       top = scale.y + sourceImgMasking.y + "px",
       left = scale.x + sourceImgMasking.x + "px";
-    console.log("top, left===>>>>", top, left);
     return {
       position: "absolute",
       top,
       left,
       width: scale.width + "px",
       height: scale.height + "px" // 兼容 Opera
+    };
+  }
+
+  // 原图遮罩样式
+  get sourceImgShadeStyle() {
+    let { sourceImgContainer } = this.state,
+      sourceImgMasking = this.sourceImgMasking,
+      sic = sourceImgContainer,
+      sim = sourceImgMasking,
+      w = sim.width == sic.width ? sim.width : (sic.width - sim.width) / 2,
+      h = sim.height == sic.height ? sim.height : (sic.height - sim.height) / 2;
+    return {
+      width: w + "px",
+      height: h + "px"
+    };
+  }
+
+  get previewStyle() {
+    let { ratio, previewContainer } = this.state,
+      pc = previewContainer,
+      w = pc.width,
+      h = pc.height,
+      pcRatio = w / h;
+    if (ratio < pcRatio) {
+      w = pc.height * ratio;
+    }
+    if (ratio > pcRatio) {
+      h = pc.width / ratio;
+    }
+    return {
+      width: w + "px",
+      height: h + "px"
     };
   }
 
@@ -151,7 +197,7 @@ class ReactQiniuAvatarUpload extends Component {
       // 图片像素不达标
       if (nWidth < width || nHeight < height) {
         that.hasError = true;
-        that.errorMsg = '图片最低像素为（宽*高）：' + width + "*" + height;
+        that.errorMsg = "图片最低像素为（宽*高）：" + width + "*" + height;
         return false;
       }
       if (ratio > nRatio) {
@@ -175,10 +221,10 @@ class ReactQiniuAvatarUpload extends Component {
           maxWidth: nWidth * sim.scale,
           maxHeight: nHeight * sim.scale,
           naturalWidth: nWidth,
-          naturalHeight: nHeight,
+          naturalHeight: nHeight
         },
         sourceImg: img
-      })
+      });
       this.createImg();
     };
   }
@@ -265,12 +311,11 @@ class ReactQiniuAvatarUpload extends Component {
       {
         mime,
         sourceImg,
-        scale: { x, y, width, height },
+        scale: { x, y, width, height }
       } = that.state,
       { imgFormat, imgBgc } = that.props,
       { scale } = this.sourceImgMasking,
       canvas = this.canvasRef.current;
-    console.log('canvasRef===>>>>', this.canvasRef);
     const ctx = canvas.getContext("2d");
     if (e) {
       // 取消鼠标按下移动状态
@@ -281,32 +326,33 @@ class ReactQiniuAvatarUpload extends Component {
         }
       });
     }
-    // canvas.width = that.width;
-    // canvas.height = that.height;
-    // ctx.clearRect(0, 0, that.width, that.height);
-    //
-    // if (imgFormat == "png") {
-    //   ctx.fillStyle = "rgba(0,0,0,0)";
-    // } else {
-    //   // 如果jpg 为透明区域设置背景，默认白色
-    //   ctx.fillStyle = imgBgc;
-    // }
-    // ctx.fillRect(0, 0, that.width, that.height);
-    //
-    // ctx.drawImage(
-    //   sourceImg,
-    //   x / scale,
-    //   y / scale,
-    //   width / scale,
-    //   height / scale
-    // );
-    // that.setState({
-    //   createImgUrl: canvas.toDataURL(mime)
-    // })
+    canvas.width = that.props.width;
+    canvas.height = that.props.height;
+    ctx.clearRect(0, 0, that.props.width, that.props.height);
+
+    if (imgFormat == "png") {
+      ctx.fillStyle = "rgba(0,0,0,0)";
+    } else {
+      // 如果jpg 为透明区域设置背景，默认白色
+      ctx.fillStyle = imgBgc;
+    }
+    ctx.fillRect(0, 0, that.props.width, that.props.height);
+
+    ctx.drawImage(
+      sourceImg,
+      x / scale,
+      y / scale,
+      width / scale,
+      height / scale
+    );
+    console.log("sourceImg===>>>>", sourceImg);
+    that.setState({
+      createImgUrl: canvas.toDataURL(mime)
+    });
   }
 
   showFiles() {
-    const { sourceImgUrl, file } = this.state;
+    const { sourceImgUrl, createImgUrl, file } = this.state;
 
     if (!file) {
       return "";
@@ -314,36 +360,56 @@ class ReactQiniuAvatarUpload extends Component {
 
     let styles = {
       width: "600px",
-      margin: "10px auto"
+      margin: "10px auto",
+      display: "flex",
+      justifyContent: "space-around"
     };
 
     return (
       <div style={styles}>
-        <ul>
-          <li style={{ position: "relative" }}>
-            <img
-              style={this.sourceImgStyle}
-              src={sourceImgUrl}
-              draggable={false}
-              onDrag={this.preventDefault}
-              onDragStart={this.preventDefault}
-              onDragEnd={this.preventDefault}
-              onDragLeave={this.preventDefault}
-              onDragOver={this.preventDefault}
-              onDragEnter={this.preventDefault}
-              onDrop={this.preventDefault}
-              onTouchStart={this.imgStartMove.bind(this)}
-              onTouchMove={this.imgMove.bind(this)}
-              onTouchEnd={this.createImg.bind(this)}
-              onTouchCancel={this.createImg.bind(this)}
-              onMouseDown={this.imgStartMove.bind(this)}
-              onMouseMove={this.imgMove.bind(this)}
-              onMouseUp={this.createImg.bind(this)}
-              onMouseOut={this.createImg.bind(this)}
-              ref="img"
-            />
-          </li>
-        </ul>
+        <div
+          style={{
+            position: "relative",
+            width: "240px",
+            height: "180px",
+            overflow: "hidden"
+          }}
+        >
+          <img
+            style={this.sourceImgStyle}
+            src={sourceImgUrl}
+            draggable={false}
+            onDrag={this.preventDefault}
+            onDragStart={this.preventDefault}
+            onDragEnd={this.preventDefault}
+            onDragLeave={this.preventDefault}
+            onDragOver={this.preventDefault}
+            onDragEnter={this.preventDefault}
+            onDrop={this.preventDefault}
+            onTouchStart={this.imgStartMove.bind(this)}
+            onTouchMove={this.imgMove.bind(this)}
+            onTouchEnd={this.createImg.bind(this)}
+            onTouchCancel={this.createImg.bind(this)}
+            onMouseDown={this.imgStartMove.bind(this)}
+            onMouseMove={this.imgMove.bind(this)}
+            onMouseUp={this.createImg.bind(this)}
+            onMouseOut={this.createImg.bind(this)}
+          />
+          <div
+            className="rqau-img-shade rqau-img-shade-1"
+            style={this.sourceImgShadeStyle}
+          />
+          <div
+            className="rqau-img-shade rqau-img-shade-2"
+            style={this.sourceImgShadeStyle}
+          />
+        </div>
+        <div>
+          <img src={createImgUrl} style={this.previewStyle} />
+        </div>
+        <div>
+          <img src={createImgUrl} style={{...this.previewStyle, borderRadius: '100%'}} />
+        </div>
       </div>
     );
   }
