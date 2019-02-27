@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import qiniu from "qiniu-js";
+import PropTypes from "prop-types";
 import mimes from "../utils/mimes";
-import "./react-qiniu-avatar-upload.css";
+import effectRipple from "../utils/effectRipple.js";
+import data2blob from "../utils/data2blob.js";
+import "./react-qiniu-avatar-upload.scss";
 
 class ReactQiniuAvatarUpload extends Component {
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
+    this.fileinput = React.createRef();
 
     let allowImgFormat = ["jpg", "png"],
       tempImgFormat =
@@ -16,7 +19,10 @@ class ReactQiniuAvatarUpload extends Component {
       nMime = mimes[tempImgFormat];
 
     this.state = {
+      step: 1, // 步骤
       file: null,
+      // 浏览器是否支持该控件
+      isSupported: typeof FormData === "function",
       // 浏览器是否支持触屏事件
       isSupportTouch: document.hasOwnProperty("ontouchstart"),
       // 原图片拖动事件初始值
@@ -67,10 +73,33 @@ class ReactQiniuAvatarUpload extends Component {
   }
 
   static defaultProps = {
+    // 图片上传格式
     imgFormat: "png",
+    // 图片背景 jpg情况下生效
     imgBgc: "#fff",
+    // 剪裁图片的宽
     width: 200,
-    height: 200
+    // 剪裁图片的高
+    height: 200,
+    // 不显示旋转功能
+    noRotate: true,
+    // 关闭 圆形图像预览
+    noCircle: false,
+    // FIX 这个功能有bug
+    // 关闭 旋转图像功能
+    noSquare: false
+  };
+
+  static propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number,
+    imgFormat: PropTypes.string,
+    imgBgc: PropTypes.string,
+    noCircle: PropTypes.bool,
+    noSquare: PropTypes.bool,
+    noRotate: PropTypes.bool,
+    off: PropTypes.func.isRequired,
+    upload: PropTypes.func.isRequired
   };
 
   // 原图蒙版属性
@@ -124,8 +153,9 @@ class ReactQiniuAvatarUpload extends Component {
       sourceImgMasking = this.sourceImgMasking,
       sic = sourceImgContainer,
       sim = sourceImgMasking,
-      w = sim.width == sic.width ? sim.width : (sic.width - sim.width) / 2,
-      h = sim.height == sic.height ? sim.height : (sic.height - sim.height) / 2;
+      w = sim.width === sic.width ? sim.width : (sic.width - sim.width) / 2,
+      h =
+        sim.height === sic.height ? sim.height : (sic.height - sim.height) / 2;
     return {
       width: w + "px",
       height: h + "px"
@@ -153,18 +183,12 @@ class ReactQiniuAvatarUpload extends Component {
   changeFile(e) {
     e.preventDefault();
     let files = e.target.files || e.dataTransfer.files;
+    console.log("files===>>>>", files);
     this.setState({
       file: files[0]
     });
     this.setSourceImg(files[0]);
-
-    // const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-    // for (const it of files) {
-    //   it.preview = URL.createObjectURL(it);
-    // }
-    // this.setState({
-    //   files: files
-    // });
+    this.setStep(2);
   }
 
   // 设置图片源
@@ -229,7 +253,7 @@ class ReactQiniuAvatarUpload extends Component {
     };
   }
 
-  upload() {
+  prepareUpload() {
     // const putExtra = {
     //   fname: this.file.name,
     // }
@@ -238,6 +262,12 @@ class ReactQiniuAvatarUpload extends Component {
     // }
     // var observable = qiniu.upload(this.file, this.file.name, token, putExtra, config)
     // var subscription = observable.subscribe(observer) // 上传开始
+    const { createImgUrl, mime } = this.state,
+      blob = data2blob(createImgUrl, mime);
+    this.props.upload({
+      createImgUrl,
+      blob
+    });
   }
 
   /* 图片选择区域函数绑定
@@ -330,7 +360,7 @@ class ReactQiniuAvatarUpload extends Component {
     canvas.height = that.props.height;
     ctx.clearRect(0, 0, that.props.width, that.props.height);
 
-    if (imgFormat == "png") {
+    if (imgFormat === "png") {
       ctx.fillStyle = "rgba(0,0,0,0)";
     } else {
       // 如果jpg 为透明区域设置背景，默认白色
@@ -345,94 +375,353 @@ class ReactQiniuAvatarUpload extends Component {
       width / scale,
       height / scale
     );
-    console.log("sourceImg===>>>>", sourceImg);
     that.setState({
       createImgUrl: canvas.toDataURL(mime)
     });
   }
 
+  handleClick(e) {
+    if (e.target !== this.fileinput.current) {
+      e.preventDefault();
+      this.fileinput.current.click();
+    }
+  }
+
+  // 点击波纹效果
+  ripple(e) {
+    effectRipple(e);
+  }
+
+  setStep(val) {
+    if (val === 1) {
+      this.fileinput.current.value = null;
+    }
+    this.setState({ step: val });
+  }
+
+  // 按钮按下开始缩小
+  startZoomSub(e) {
+    let that = this,
+      { scale } = that.state;
+    this.setState({
+      scale: {
+        ...scale,
+        zoomSubOn: true
+      }
+    });
+
+    function zoom() {
+      if (scale.zoomSubOn) {
+        let range = scale.range <= 0 ? 0 : --scale.range;
+        that.zoomImg(range);
+        setTimeout(function() {
+          zoom();
+        }, 60);
+      }
+    }
+    zoom();
+  }
+
+  // 缩放原图
+  zoomImg(newRange) {
+    let that = this,
+      { scale } = this.state,
+      sourceImgMasking = this.sourceImgMasking,
+      { maxWidth, maxHeight, minWidth, minHeight, width, height, x, y } = scale,
+      sim = sourceImgMasking,
+      // 蒙版宽高
+      sWidth = sim.width,
+      sHeight = sim.height,
+      // 新宽高
+      nWidth = minWidth + (maxWidth - minWidth) * newRange / 100,
+      nHeight = minHeight + (maxHeight - minHeight) * newRange / 100,
+      // 新坐标（根据蒙版中心点缩放）
+      nX = sWidth / 2 - nWidth / width * (sWidth / 2 - x),
+      nY = sHeight / 2 - nHeight / height * (sHeight / 2 - y);
+
+    // 判断新坐标是否超过蒙版限制
+    if (nX > 0) {
+      nX = 0;
+    }
+    if (nY > 0) {
+      nY = 0;
+    }
+    if (nX < sWidth - nWidth) {
+      nX = sWidth - nWidth;
+    }
+    if (nY < sHeight - nHeight) {
+      nY = sHeight - nHeight;
+    }
+
+    // 赋值处理
+    this.setState({
+      scale: {
+        ...scale,
+        x: nX,
+        y: nY,
+        width: nWidth,
+        height: nHeight,
+        range: newRange
+      }
+    });
+    setTimeout(function() {
+      if (scale.range === newRange) {
+        that.createImg();
+      }
+    }, 300);
+  }
+
+  // 按钮松开或移开取消缩小
+  endZoomSub(e) {
+    let { scale } = this.state;
+    this.setState({
+      scale: {
+        ...scale,
+        zoomSubOn: false
+      }
+    });
+  }
+
+  // 按钮按下开始放大
+  startZoomAdd(e) {
+    let that = this,
+      { scale } = that.state;
+    this.setState({
+      scale: {
+        ...scale,
+        zoomAddOn: true
+      }
+    });
+
+    function zoom() {
+      if (scale.zoomAddOn) {
+        let range = scale.range >= 100 ? 100 : ++scale.range;
+        that.zoomImg(range);
+        setTimeout(function() {
+          zoom();
+        }, 60);
+      }
+    }
+    zoom();
+  }
+
+  // 按钮松开或移开取消放大
+  endZoomAdd(e) {
+    const { scale } = this.state;
+    this.setState({
+      scale: {
+        ...scale,
+        zoomAddOn: false
+      }
+    });
+  }
+
+  zoomChange(e) {
+    this.zoomImg(e.target.value);
+  }
+
+  // 顺时针旋转图片
+  rotateImg(e) {
+    let {
+        sourceImg,
+        scale: { naturalWidth, naturalHeight }
+      } = this.state,
+      width = naturalHeight,
+      height = naturalWidth,
+      canvas = this.canvasRef.current,
+      ctx = canvas.getContext("2d");
+    canvas.width = width;
+    canvas.height = height;
+    ctx.clearRect(0, 0, width, height);
+
+    ctx.fillStyle = "rgba(0,0,0,0)";
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.translate(width, 0);
+    ctx.rotate(Math.PI * 90 / 180);
+
+    ctx.drawImage(sourceImg, 0, 0, naturalWidth, naturalHeight);
+    let imgUrl = canvas.toDataURL(mimes["png"]);
+
+    this.setState({
+      sourceImgUrl: imgUrl
+    });
+    this.startCrop();
+  }
+
   showFiles() {
-    const { sourceImgUrl, createImgUrl, file } = this.state;
+    const { sourceImgUrl, createImgUrl, file, scale } = this.state;
+    const { noRotate, noCircle, noSquare } = this.props;
 
     if (!file) {
       return "";
     }
 
-    let styles = {
-      width: "600px",
-      margin: "10px auto",
-      display: "flex",
-      justifyContent: "space-around"
-    };
-
     return (
-      <div style={styles}>
-        <div
-          style={{
-            position: "relative",
-            width: "240px",
-            height: "180px",
-            overflow: "hidden"
-          }}
-        >
-          <img
-            style={this.sourceImgStyle}
-            src={sourceImgUrl}
-            draggable={false}
-            onDrag={this.preventDefault}
-            onDragStart={this.preventDefault}
-            onDragEnd={this.preventDefault}
-            onDragLeave={this.preventDefault}
-            onDragOver={this.preventDefault}
-            onDragEnter={this.preventDefault}
-            onDrop={this.preventDefault}
-            onTouchStart={this.imgStartMove.bind(this)}
-            onTouchMove={this.imgMove.bind(this)}
-            onTouchEnd={this.createImg.bind(this)}
-            onTouchCancel={this.createImg.bind(this)}
-            onMouseDown={this.imgStartMove.bind(this)}
-            onMouseMove={this.imgMove.bind(this)}
-            onMouseUp={this.createImg.bind(this)}
-            onMouseOut={this.createImg.bind(this)}
-          />
-          <div
-            className="rqau-img-shade rqau-img-shade-1"
-            style={this.sourceImgShadeStyle}
-          />
-          <div
-            className="rqau-img-shade rqau-img-shade-2"
-            style={this.sourceImgShadeStyle}
-          />
-        </div>
+      <div className="rqau-step2">
         <div>
-          <img src={createImgUrl} style={this.previewStyle} />
+          <div className="rqau-step2-left">
+            <img
+              style={this.sourceImgStyle}
+              src={sourceImgUrl}
+              draggable={false}
+              onDrag={this.preventDefault}
+              onDragStart={this.preventDefault}
+              onDragEnd={this.preventDefault}
+              onDragLeave={this.preventDefault}
+              onDragOver={this.preventDefault}
+              onDragEnter={this.preventDefault}
+              onDrop={this.preventDefault}
+              onTouchStart={this.imgStartMove.bind(this)}
+              onTouchMove={this.imgMove.bind(this)}
+              onTouchEnd={this.createImg.bind(this)}
+              onTouchCancel={this.createImg.bind(this)}
+              onMouseDown={this.imgStartMove.bind(this)}
+              onMouseMove={this.imgMove.bind(this)}
+              onMouseUp={this.createImg.bind(this)}
+              onMouseOut={this.createImg.bind(this)}
+              alt=""
+            />
+            <div
+              className="rqau-img-shade rqau-img-shade-1"
+              style={this.sourceImgShadeStyle}
+            />
+            <div
+              className="rqau-img-shade rqau-img-shade-2"
+              style={this.sourceImgShadeStyle}
+            />
+          </div>
+          <div className="rqau-range">
+            <input
+              type="range"
+              value={scale.range}
+              step="1"
+              min="0"
+              max="100"
+              onMouseMove={this.zoomChange.bind(this)}
+              onChange={this.zoomChange.bind(this)}
+            />
+            <i
+              onMouseDown={this.startZoomSub.bind(this)}
+              onMouseOut={this.endZoomSub.bind(this)}
+              onMouseUp={this.endZoomSub.bind(this)}
+              className="rqau-icon5"
+            />
+            <i
+              onMouseDown={this.startZoomAdd.bind(this)}
+              onMouseOut={this.endZoomAdd.bind(this)}
+              onMouseUp={this.endZoomAdd.bind(this)}
+              className="rqau-icon6"
+            />
+          </div>
+          {!noRotate && (
+            <div className="rqau-rotate">
+              <i onClick={this.rotateImg.bind(this)}>↻</i>
+            </div>
+          )}
         </div>
-        <div>
-          <img src={createImgUrl} style={{...this.previewStyle, borderRadius: '100%'}} />
+        <div className="rqau-step2-right">
+          {!noSquare && (
+            <div>
+              <img src={createImgUrl} style={this.previewStyle} alt="" />
+              <div className="rqau-step2-right-text">头像预览</div>
+            </div>
+          )}
+          {!noCircle && (
+            <div>
+              <img
+                src={createImgUrl}
+                style={{ ...this.previewStyle, borderRadius: "100%" }}
+                alt=""
+              />
+              <div className="rqau-step2-right-text">头像预览</div>
+            </div>
+          )}
         </div>
       </div>
     );
   }
 
   render() {
-    const { width, height } = this.props;
+    const { width, height, off } = this.props;
+    const { step, isSupported } = this.state;
 
     return (
-      <div>
-        <input
-          id="file"
-          type="file"
-          accept="image/png, image/jpeg, image/gif, image/jpg"
-          onChange={this.changeFile.bind(this)}
-        />
-        <button onClick={this.upload.bind(this)}>上传</button>
-        {this.showFiles()}
-        <canvas
-          style={{ display: "none" }}
-          width={width}
-          height={height}
-          ref={this.canvasRef}
-        />
+      <div className="rqau">
+        <div className="rqau-wrap">
+          <div className="rqau-close" onClick={off}>
+            <i className="rqau-icon4" />
+          </div>
+          <div className="rqau-step1" style={{ display: step !== 1 && "none" }}>
+            <div
+              className="rqau-drop-area"
+              onDragLeave={this.preventDefault}
+              onDragOver={this.preventDefault}
+              onDragEnter={this.preventDefault}
+              onClick={this.handleClick.bind(this)}
+              onDrop={this.changeFile.bind(this)}
+            >
+              <i className="rqau-icon1">
+                <i className="rqau-icon1-arrow" />
+                <i className="rqau-icon1-body" />
+                <i className="rqau-icon1-bottom" />
+              </i>
+              <span className="rqau-hint">点击，或拖动图片至此处</span>
+              <span
+                className="rqau-no-supported-hint"
+                style={{ display: isSupported && "none" }}
+              >
+                浏览器不支持该功能，请使用IE10以上或其他现代浏览器！
+              </span>
+
+              <input
+                style={{ display: "none" }}
+                id="file"
+                type="file"
+                accept="image/png, image/jpeg, image/gif, image/jpg"
+                onChange={this.changeFile.bind(this)}
+                ref={this.fileinput}
+              />
+            </div>
+          </div>
+
+          {/*<button onClick={this.upload.bind(this)}>上传</button>*/}
+          <div style={{ display: step !== 2 && "none" }}>
+            {this.showFiles()}
+          </div>
+
+          <div className="rqau-operate">
+            <button
+              onClick={() => this.setStep.call(this, 1)}
+              onMouseDown={this.ripple}
+              style={{ display: step === 1 && "none" }}
+            >
+              上一步
+            </button>
+            <button
+              style={{ display: step === 1 && "none" }}
+              className="rqau-operate-btn"
+              onClick={this.prepareUpload.bind(this)}
+              onMouseDown={this.ripple}
+            >
+              保存
+            </button>
+
+            <button
+              onClick={off}
+              onMouseDown={this.ripple}
+              style={{ display: step !== 1 && "none" }}
+            >
+              关闭
+            </button>
+          </div>
+          <canvas
+            style={{ display: "none" }}
+            width={width}
+            height={height}
+            ref={this.canvasRef}
+          />
+        </div>
       </div>
     );
   }

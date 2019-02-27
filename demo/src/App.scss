@@ -27,6 +27,32 @@
   margin: 0 auto;
 }
 
+.set-upload-btn {
+  border: none;
+  position: relative;
+  float: left;
+  display: block;
+  margin-left: 10px;
+  width: 100px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #4a7;
+  border-radius: 2px;
+  overflow: hidden;
+  user-select: none;
+  outline: none;
+  &:hover {
+    //background-color: rgba(0, 0, 0, 0.03);
+  }
+  &:focus,
+  &:active {
+    border: none;
+  }
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
