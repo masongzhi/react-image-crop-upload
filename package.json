@@ -1,0 +1,15 @@
+{
+  "name": "react-qiniu-avatar-upload",
+  "version": "1.0.0",
+  "description": "react七牛头像上传组件",
+  "main": "index.js",
+  "repository": "git@github.com:masongzhi/react-qiniu-avatar-upload.git",
+  "author": "masongzhi <511071161@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "qiniu-js": "^2.5.4"
+  },
+  "peerDependencies": {
+    "react": "^16.8.3"
+  }
+}
