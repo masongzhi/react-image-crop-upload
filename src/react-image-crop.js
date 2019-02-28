@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import mimes from "./utils/mimes";
 import effectRipple from "./utils/effectRipple.js";
 import data2blob from "./utils/data2blob.js";
-import "./react-image-crop-upload-base.scss";
+import "./react-image-crop.scss";
 
-class ReactImageCropUploadBase extends Component {
+class ReactImageCrop extends Component {
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
@@ -183,7 +183,6 @@ class ReactImageCropUploadBase extends Component {
   changeFile(e) {
     e.preventDefault();
     let files = e.target.files || e.dataTransfer.files;
-    console.log("files===>>>>", files);
     this.setState({
       file: files[0]
     });
@@ -642,6 +641,10 @@ class ReactImageCropUploadBase extends Component {
     );
   }
 
+  componentDidMount(){
+    this.props.onRef && this.props.onRef(this)
+  }
+
   render() {
     const { width, height, off } = this.props;
     const { step, isSupported } = this.state;
@@ -727,4 +730,4 @@ class ReactImageCropUploadBase extends Component {
   }
 }
 
-export default ReactImageCropUploadBase;
+export default ReactImageCrop;

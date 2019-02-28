@@ -10,7 +10,7 @@ export default {
     format: 'es'
   },
   plugins: [
-    terser(),
+    // terser(),
     postcss({
       extract: true,
       plugins: [require('autoprefixer')]
