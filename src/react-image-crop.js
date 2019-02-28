@@ -641,10 +641,6 @@ class ReactImageCrop extends Component {
     );
   }
 
-  componentDidMount(){
-    this.props.onRef && this.props.onRef(this)
-  }
-
   render() {
     const { width, height, off } = this.props;
     const { step, isSupported } = this.state;

@@ -6,6 +6,7 @@ import data2blob from "./utils/data2blob.js";
 class ReactImageCropUpload extends Component {
   constructor(props) {
     super(props);
+    this.cropRef = React.createRef();
   }
 
   static defaultProps = {
@@ -37,13 +38,9 @@ class ReactImageCropUpload extends Component {
     handleCropUploadFail: PropTypes.func.isRequired
   };
 
-  onRef = ref => {
-    this.child = ref;
-  };
-
   // 上传图片
   upload() {
-    let child = this.child,
+    let child = this.cropRef.current,
       {
         url,
         params,
@@ -76,9 +73,7 @@ class ReactImageCropUpload extends Component {
     //     that.progress = 100 * Math.round(event.loaded) / event.total;
     //   }
     // };
-
     // 上传文件
-    child.reset();
     // child.setStep(3);
     new Promise(function(resolve, reject) {
       let client = new XMLHttpRequest();
@@ -119,7 +114,7 @@ class ReactImageCropUpload extends Component {
       <ReactImageCrop
         {...this.props}
         upload={this.upload.bind(this)}
-        onRef={this.onRef}
+        ref={this.cropRef}
       />
     );
   }
