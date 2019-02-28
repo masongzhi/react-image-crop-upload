@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import mimes from "../utils/mimes";
-import effectRipple from "../utils/effectRipple.js";
-import data2blob from "../utils/data2blob.js";
+import mimes from "./utils/mimes";
+import effectRipple from "./utils/effectRipple.js";
+import data2blob from "./utils/data2blob.js";
 import "./react-qiniu-avatar-upload.scss";
 
 class ReactQiniuAvatarUpload extends Component {

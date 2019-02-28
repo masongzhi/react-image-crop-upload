@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.scss";
-import ReactQiniuAvatarUpload from "./components/react-qiniu-avatar-upload";
+import "react-qiniu-avatar-upload/index.css";
+import ReactQiniuAvatarUpload from "react-qiniu-avatar-upload";
 
 class App extends Component {
   state = {
