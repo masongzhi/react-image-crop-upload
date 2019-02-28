@@ -1,16 +1,13 @@
 {
-  "name": "react-qiniu-avatar-upload",
+  "name": "react-image-crop-upload",
   "version": "1.0.0",
-  "description": "react七牛头像上传组件",
+  "description": "A beautiful react component for imgage crop and upload. （react头像剪裁上传组件）.",
   "main": "dist/index.js",
   "repository": "git@github.com:masongzhi/react-qiniu-avatar-upload.git",
   "author": "masongzhi <511071161@qq.com>",
   "license": "MIT",
   "scripts": {
     "build": "rollup -c rollup.config.js"
-  },
-  "dependencies": {
-    "qiniu-js": "^2.5.4"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",
@@ -23,6 +20,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "node-sass": "^4.11.0",
     "rollup": "^1.3.1",
     "rollup-plugin-babel": "^3.0.7",
     "rollup-plugin-postcss": "^2.0.3",

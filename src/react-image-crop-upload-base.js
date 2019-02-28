@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import mimes from "./utils/mimes";
 import effectRipple from "./utils/effectRipple.js";
 import data2blob from "./utils/data2blob.js";
-import "./react-qiniu-avatar-upload.scss";
+import "./react-image-crop-upload-base.scss";
 
-class ReactQiniuAvatarUpload extends Component {
+class ReactImageCropUploadBase extends Component {
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
@@ -558,9 +558,9 @@ class ReactQiniuAvatarUpload extends Component {
     }
 
     return (
-      <div className="rqau-step2">
+      <div className="ricu-step2">
         <div>
-          <div className="rqau-step2-left">
+          <div className="ricu-step2-left">
             <img
               style={this.sourceImgStyle}
               src={sourceImgUrl}
@@ -583,15 +583,15 @@ class ReactQiniuAvatarUpload extends Component {
               alt=""
             />
             <div
-              className="rqau-img-shade rqau-img-shade-1"
+              className="ricu-img-shade ricu-img-shade-1"
               style={this.sourceImgShadeStyle}
             />
             <div
-              className="rqau-img-shade rqau-img-shade-2"
+              className="ricu-img-shade ricu-img-shade-2"
               style={this.sourceImgShadeStyle}
             />
           </div>
-          <div className="rqau-range">
+          <div className="ricu-range">
             <input
               type="range"
               value={scale.range}
@@ -605,26 +605,26 @@ class ReactQiniuAvatarUpload extends Component {
               onMouseDown={this.startZoomSub.bind(this)}
               onMouseOut={this.endZoomSub.bind(this)}
               onMouseUp={this.endZoomSub.bind(this)}
-              className="rqau-icon5"
+              className="ricu-icon5"
             />
             <i
               onMouseDown={this.startZoomAdd.bind(this)}
               onMouseOut={this.endZoomAdd.bind(this)}
               onMouseUp={this.endZoomAdd.bind(this)}
-              className="rqau-icon6"
+              className="ricu-icon6"
             />
           </div>
           {!noRotate && (
-            <div className="rqau-rotate">
+            <div className="ricu-rotate">
               <i onClick={this.rotateImg.bind(this)}>↻</i>
             </div>
           )}
         </div>
-        <div className="rqau-step2-right">
+        <div className="ricu-step2-right">
           {!noSquare && (
             <div>
               <img src={createImgUrl} style={this.previewStyle} alt="" />
-              <div className="rqau-step2-right-text">头像预览</div>
+              <div className="ricu-step2-right-text">头像预览</div>
             </div>
           )}
           {!noCircle && (
@@ -634,7 +634,7 @@ class ReactQiniuAvatarUpload extends Component {
                 style={{ ...this.previewStyle, borderRadius: "100%" }}
                 alt=""
               />
-              <div className="rqau-step2-right-text">头像预览</div>
+              <div className="ricu-step2-right-text">头像预览</div>
             </div>
           )}
         </div>
@@ -647,28 +647,28 @@ class ReactQiniuAvatarUpload extends Component {
     const { step, isSupported } = this.state;
 
     return (
-      <div className="rqau">
-        <div className="rqau-wrap">
-          <div className="rqau-close" onClick={off}>
-            <i className="rqau-icon4" />
+      <div className="ricu">
+        <div className="ricu-wrap">
+          <div className="ricu-close" onClick={off}>
+            <i className="ricu-icon4" />
           </div>
-          <div className="rqau-step1" style={{ display: step !== 1 && "none" }}>
+          <div className="ricu-step1" style={{ display: step !== 1 && "none" }}>
             <div
-              className="rqau-drop-area"
+              className="ricu-drop-area"
               onDragLeave={this.preventDefault}
               onDragOver={this.preventDefault}
               onDragEnter={this.preventDefault}
               onClick={this.handleClick.bind(this)}
               onDrop={this.changeFile.bind(this)}
             >
-              <i className="rqau-icon1">
-                <i className="rqau-icon1-arrow" />
-                <i className="rqau-icon1-body" />
-                <i className="rqau-icon1-bottom" />
+              <i className="ricu-icon1">
+                <i className="ricu-icon1-arrow" />
+                <i className="ricu-icon1-body" />
+                <i className="ricu-icon1-bottom" />
               </i>
-              <span className="rqau-hint">点击，或拖动图片至此处</span>
+              <span className="ricu-hint">点击，或拖动图片至此处</span>
               <span
-                className="rqau-no-supported-hint"
+                className="ricu-no-supported-hint"
                 style={{ display: isSupported && "none" }}
               >
                 浏览器不支持该功能，请使用IE10以上或其他现代浏览器！
@@ -690,7 +690,7 @@ class ReactQiniuAvatarUpload extends Component {
             {this.showFiles()}
           </div>
 
-          <div className="rqau-operate">
+          <div className="ricu-operate">
             <button
               onClick={() => this.setStep.call(this, 1)}
               onMouseDown={this.ripple}
@@ -700,7 +700,7 @@ class ReactQiniuAvatarUpload extends Component {
             </button>
             <button
               style={{ display: step === 1 && "none" }}
-              className="rqau-operate-btn"
+              className="ricu-operate-btn"
               onClick={this.prepareUpload.bind(this)}
               onMouseDown={this.ripple}
             >
@@ -727,4 +727,4 @@ class ReactQiniuAvatarUpload extends Component {
   }
 }
 
-export default ReactQiniuAvatarUpload;
+export default ReactImageCropUploadBase;

@@ -1,2 +1,2 @@
-import Rqau from './src/react-qiniu-avatar-upload'
-export default Rqau
+import ricu from './src/react-image-crop-upload-base'
+export default ricu

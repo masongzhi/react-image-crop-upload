@@ -1,4 +1,4 @@
-@-webkit-keyframes rqau {
+@-webkit-keyframes ricu {
   0% {
     opacity: 0;
     -webkit-transform: scale(0) translatey(-60px);
@@ -8,7 +8,7 @@
     -webkit-transform: scale(1) translatey(0);
             transform: scale(1) translatey(0); } }
 
-@keyframes rqau {
+@keyframes ricu {
   0% {
     opacity: 0;
     -webkit-transform: scale(0) translatey(-60px);
@@ -18,7 +18,7 @@
     -webkit-transform: scale(1) translatey(0);
             transform: scale(1) translatey(0); } }
 
-.rqau {
+.ricu {
   position: fixed;
   display: block;
   box-sizing: border-box;
@@ -31,7 +31,7 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.65);
   -webkit-tap-highlight-color: transparent; }
-  .rqau-wrap {
+  .ricu-wrap {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
     position: fixed;
     display: block;
@@ -47,13 +47,13 @@
     padding: 25px;
     background-color: #fff;
     border-radius: 2px;
-    -webkit-animation: rqau 0.12s ease-in;
-            animation: rqau 0.12s ease-in; }
-  .rqau-close {
+    -webkit-animation: ricu 0.12s ease-in;
+            animation: ricu 0.12s ease-in; }
+  .ricu-close {
     position: absolute;
     right: -30px;
     top: -30px; }
-  .rqau-icon4 {
+  .ricu-icon4 {
     position: relative;
     display: block;
     width: 30px;
@@ -62,7 +62,7 @@
     transition: -webkit-transform 0.18s;
     -webkit-transform: rotate(0);
             transform: rotate(0); }
-    .rqau-icon4::after, .rqau-icon4::before {
+    .ricu-icon4::after, .ricu-icon4::before {
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
       content: "";
       position: absolute;
@@ -73,13 +73,13 @@
       -webkit-transform: rotate(45deg);
               transform: rotate(45deg);
       background-color: #fff; }
-    .rqau-icon4::after {
+    .ricu-icon4::after {
       -webkit-transform: rotate(-45deg);
               transform: rotate(-45deg); }
-    .rqau-icon4:hover {
+    .ricu-icon4:hover {
       -webkit-transform: rotate(90deg);
               transform: rotate(90deg); }
-  .rqau-step1 .rqau-drop-area {
+  .ricu-step1 .ricu-drop-area {
     position: relative;
     box-sizing: border-box;
     padding: 35px;
@@ -88,17 +88,17 @@
     text-align: center;
     border: 1px dashed rgba(0, 0, 0, 0.08);
     overflow: hidden; }
-    .rqau-step1 .rqau-drop-area:hover {
+    .ricu-step1 .ricu-drop-area:hover {
       cursor: pointer;
       border-color: rgba(0, 0, 0, 0.1);
       background-color: rgba(0, 0, 0, 0.05); }
-    .rqau-step1 .rqau-drop-area .rqau-icon1 {
+    .ricu-step1 .ricu-drop-area .ricu-icon1 {
       display: block;
       margin: 0 auto 6px;
       width: 42px;
       height: 42px;
       overflow: hidden; }
-      .rqau-step1 .rqau-drop-area .rqau-icon1 .rqau-icon1-arrow {
+      .ricu-step1 .ricu-drop-area .ricu-icon1 .ricu-icon1-arrow {
         display: block;
         margin: 0 auto;
         width: 0;
@@ -106,25 +106,25 @@
         border-bottom: 14.7px solid rgba(0, 0, 0, 0.3);
         border-left: 14.7px solid transparent;
         border-right: 14.7px solid transparent; }
-      .rqau-step1 .rqau-drop-area .rqau-icon1 .rqau-icon1-body {
+      .ricu-step1 .ricu-drop-area .ricu-icon1 .ricu-icon1-body {
         display: block;
         width: 12.6px;
         height: 14.7px;
         margin: 0 auto;
         background-color: rgba(0, 0, 0, 0.3); }
-      .rqau-step1 .rqau-drop-area .rqau-icon1 .rqau-icon1-bottom {
+      .ricu-step1 .ricu-drop-area .ricu-icon1 .ricu-icon1-bottom {
         box-sizing: border-box;
         display: block;
         height: 12.6px;
         border: 6px solid rgba(0, 0, 0, 0.3);
         border-top: none; }
-    .rqau-step1 .rqau-drop-area .rqau-hint {
+    .ricu-step1 .ricu-drop-area .ricu-hint {
       display: block;
       padding: 15px;
       font-size: 14px;
       color: #666;
       line-height: 30px; }
-    .rqau-step1 .rqau-drop-area .rqau-no-supported-hint {
+    .ricu-step1 .ricu-drop-area .ricu-no-supported-hint {
       display: block;
       position: absolute;
       top: 0;
@@ -137,41 +137,41 @@
       text-align: center;
       color: #666;
       font-size: 14px; }
-  .rqau-step2 {
+  .ricu-step2 {
     margin: 10px auto;
     display: flex;
     justify-content: space-around; }
-    .rqau-step2-left {
+    .ricu-step2-left {
       position: relative;
       width: 240px;
       height: 180px;
       overflow: hidden; }
-    .rqau-step2-right {
+    .ricu-step2-right {
       flex: 1;
       display: flex;
       justify-content: space-around; }
-      .rqau-step2-right img {
+      .ricu-step2-right img {
         border: 1px solid rgba(0, 0, 0, 0.15); }
-      .rqau-step2-right-text {
+      .ricu-step2-right-text {
         margin-top: 10px;
         font-size: 14px;
         color: #bbb;
         text-align: center; }
-    .rqau-step2 .rqau-img-shade {
+    .ricu-step2 .ricu-img-shade {
       box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.18);
       position: absolute;
       background-color: rgba(241, 242, 243, 0.8); }
-    .rqau-step2 .rqau-img-shade-1 {
+    .ricu-step2 .ricu-img-shade-1 {
       top: 0;
       left: 0; }
-    .rqau-step2 .rqau-img-shade-2 {
+    .ricu-step2 .ricu-img-shade-2 {
       bottom: 0;
       right: 0; }
-  .rqau .rqau-operate {
+  .ricu .ricu-operate {
     position: absolute;
     right: 20px;
     bottom: 20px; }
-    .rqau .rqau-operate button {
+    .ricu .ricu-operate button {
       border: none;
       position: relative;
       float: left;
@@ -191,29 +191,29 @@
           -ms-user-select: none;
               user-select: none;
       outline: none; }
-      .rqau .rqau-operate button:hover {
+      .ricu .ricu-operate button:hover {
         background-color: rgba(0, 0, 0, 0.03); }
-      .rqau .rqau-operate button:focus, .rqau .rqau-operate button:active {
+      .ricu .ricu-operate button:focus, .ricu .ricu-operate button:active {
         border: none; }
-  .rqau .rqau-range {
+  .ricu .ricu-range {
     position: relative;
     margin: 30px 0 10px 0;
     width: 240px;
     height: 18px; }
-    .rqau .rqau-range .rqau-icon5, .rqau .rqau-range .rqau-icon6 {
+    .ricu .ricu-range .ricu-icon5, .ricu .ricu-range .ricu-icon6 {
       position: absolute;
       top: 0;
       width: 18px;
       height: 18px;
       border-radius: 100%;
       background-color: rgba(0, 0, 0, 0.08); }
-    .rqau .rqau-range .rqau-icon5:hover, .rqau .rqau-range .rqau-icon6:hover {
+    .ricu .ricu-range .ricu-icon5:hover, .ricu .ricu-range .ricu-icon6:hover {
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
       cursor: pointer;
       background-color: rgba(0, 0, 0, 0.14); }
-    .rqau .rqau-range .rqau-icon5 {
+    .ricu .ricu-range .ricu-icon5 {
       left: 0; }
-      .rqau .rqau-range .rqau-icon5::before {
+      .ricu .ricu-range .ricu-icon5::before {
         position: absolute;
         content: "";
         display: block;
@@ -222,9 +222,9 @@
         width: 12px;
         height: 2px;
         background-color: #fff; }
-    .rqau .rqau-range .rqau-icon6 {
+    .ricu .ricu-range .ricu-icon6 {
       right: 0; }
-      .rqau .rqau-range .rqau-icon6::before {
+      .ricu .ricu-range .ricu-icon6::before {
         position: absolute;
         content: "";
         display: block;
@@ -233,7 +233,7 @@
         width: 12px;
         height: 2px;
         background-color: #fff; }
-      .rqau .rqau-range .rqau-icon6::after {
+      .ricu .ricu-range .ricu-icon6::after {
         position: absolute;
         content: "";
         display: block;
@@ -242,7 +242,7 @@
         width: 2px;
         height: 12px;
         background-color: #fff; }
-    .rqau .rqau-range input[type="range"] {
+    .ricu .ricu-range input[type="range"] {
       display: block;
       padding-top: 5px;
       margin: 0 auto;
@@ -254,9 +254,9 @@
          -moz-appearance: none;
               appearance: none;
       cursor: pointer; }
-      .rqau .rqau-range input[type="range"]:focus {
+      .ricu .ricu-range input[type="range"]:focus {
         outline: none; }
-      .rqau .rqau-range input[type="range"]::-webkit-slider-thumb {
+      .ricu .ricu-range input[type="range"]::-webkit-slider-thumb {
         box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.18);
         -webkit-appearance: none;
         appearance: none;
@@ -267,7 +267,7 @@
         border-radius: 100%;
         border: none;
         transition: 0.2s; }
-      .rqau .rqau-range input[type="range"]::-moz-range-thumb {
+      .ricu .ricu-range input[type="range"]::-moz-range-thumb {
         box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.18);
         -moz-appearance: none;
         appearance: none;
@@ -277,7 +277,7 @@
         border-radius: 100%;
         border: none;
         transition: 0.2s; }
-      .rqau .rqau-range input[type="range"]::-ms-thumb {
+      .ricu .ricu-range input[type="range"]::-ms-thumb {
         box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.18);
         appearance: none;
         width: 12px;
@@ -286,20 +286,20 @@
         border: none;
         border-radius: 100%;
         transition: 0.2s; }
-      .rqau .rqau-range input[type="range"]:active::-moz-range-thumb {
+      .ricu .ricu-range input[type="range"]:active::-moz-range-thumb {
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
         width: 14px;
         height: 14px; }
-      .rqau .rqau-range input[type="range"]:active::-ms-thumb {
+      .ricu .ricu-range input[type="range"]:active::-ms-thumb {
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
         width: 14px;
         height: 14px; }
-      .rqau .rqau-range input[type="range"]:active::-webkit-slider-thumb {
+      .ricu .ricu-range input[type="range"]:active::-webkit-slider-thumb {
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
         margin-top: -4px;
         width: 14px;
         height: 14px; }
-      .rqau .rqau-range input[type="range"]::-webkit-slider-runnable-track {
+      .ricu .ricu-range input[type="range"]::-webkit-slider-runnable-track {
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
         width: 100%;
         height: 6px;
@@ -307,7 +307,7 @@
         border-radius: 2px;
         border: none;
         background-color: rgba(68, 170, 119, 0.3); }
-      .rqau .rqau-range input[type="range"]::-moz-range-track {
+      .ricu .ricu-range input[type="range"]::-moz-range-track {
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
         width: 100%;
         height: 6px;
@@ -315,7 +315,7 @@
         border-radius: 2px;
         border: none;
         background-color: rgba(68, 170, 119, 0.3); }
-      .rqau .rqau-range input[type="range"]::-ms-track {
+      .ricu .ricu-range input[type="range"]::-ms-track {
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
         width: 100%;
         cursor: pointer;
@@ -325,19 +325,19 @@
         height: 6px;
         border-radius: 2px;
         border: none; }
-      .rqau .rqau-range input[type="range"]::-ms-fill-lower {
+      .ricu .ricu-range input[type="range"]::-ms-fill-lower {
         background-color: rgba(68, 170, 119, 0.3); }
-      .rqau .rqau-range input[type="range"]::-ms-fill-upper {
+      .ricu .ricu-range input[type="range"]::-ms-fill-upper {
         background-color: rgba(68, 170, 119, 0.15); }
-      .rqau .rqau-range input[type="range"]:focus::-webkit-slider-runnable-track {
+      .ricu .ricu-range input[type="range"]:focus::-webkit-slider-runnable-track {
         background-color: rgba(68, 170, 119, 0.5); }
-      .rqau .rqau-range input[type="range"]:focus::-moz-range-track {
+      .ricu .ricu-range input[type="range"]:focus::-moz-range-track {
         background-color: rgba(68, 170, 119, 0.5); }
-      .rqau .rqau-range input[type="range"]:focus::-ms-fill-lower {
+      .ricu .ricu-range input[type="range"]:focus::-ms-fill-lower {
         background-color: rgba(68, 170, 119, 0.45); }
-      .rqau .rqau-range input[type="range"]:focus::-ms-fill-upper {
+      .ricu .ricu-range input[type="range"]:focus::-ms-fill-upper {
         background-color: rgba(68, 170, 119, 0.25); }
-  .rqau .e-ripple {
+  .ricu .e-ripple {
     position: absolute;
     border-radius: 100%;
     background-color: rgba(0, 0, 0, 0.15);
@@ -350,7 +350,7 @@
     -webkit-transform: scale(0);
             transform: scale(0);
     opacity: 1; }
-  .rqau .e-ripple.z-active {
+  .ricu .e-ripple.z-active {
     opacity: 0;
     -webkit-transform: scale(2);
             transform: scale(2);

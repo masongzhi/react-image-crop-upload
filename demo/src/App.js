@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.scss";
-import "react-qiniu-avatar-upload/index.css";
-import ReactQiniuAvatarUpload from "react-qiniu-avatar-upload";
+import "react-image-crop-upload/index.css";
+import ReactImageCropUpload from "react-image-crop-upload";
 
 class App extends Component {
   state = {
@@ -29,7 +29,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <button className="set-upload-btn" onClick={this.handleClick.bind(this)}>设置上传</button>
           {this.state.visible && (
-            <ReactQiniuAvatarUpload
+            <ReactImageCropUpload
               off={this.off.bind(this)}
               upload={this.upload.bind(this)}
             />

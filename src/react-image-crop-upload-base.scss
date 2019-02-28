@@ -1,4 +1,4 @@
-@keyframes rqau {
+@keyframes ricu {
   0% {
     opacity: 0;
     transform: scale(0) translatey(-60px);
@@ -9,7 +9,7 @@
   }
 }
 
-.rqau {
+.ricu {
   position: fixed;
   display: block;
   box-sizing: border-box;
@@ -40,7 +40,7 @@
     padding: 25px;
     background-color: #fff;
     border-radius: 2px;
-    animation: rqau 0.12s ease-in;
+    animation: ricu 0.12s ease-in;
   }
 
   &-close {
@@ -78,7 +78,7 @@
   }
 
   &-step1 {
-    .rqau-drop-area {
+    .ricu-drop-area {
       position: relative;
       box-sizing: border-box;
       padding: 35px;
@@ -92,13 +92,13 @@
         border-color: rgba(0, 0, 0, 0.1);
         background-color: rgba(0, 0, 0, 0.05);
       }
-      .rqau-icon1 {
+      .ricu-icon1 {
         display: block;
         margin: 0 auto 6px;
         width: 42px;
         height: 42px;
         overflow: hidden;
-        .rqau-icon1-arrow {
+        .ricu-icon1-arrow {
           display: block;
           margin: 0 auto;
           width: 0;
@@ -107,14 +107,14 @@
           border-left: 14.7px solid transparent;
           border-right: 14.7px solid transparent;
         }
-        .rqau-icon1-body {
+        .ricu-icon1-body {
           display: block;
           width: 12.6px;
           height: 14.7px;
           margin: 0 auto;
           background-color: rgba(0, 0, 0, 0.3);
         }
-        .rqau-icon1-bottom {
+        .ricu-icon1-bottom {
           box-sizing: border-box;
           display: block;
           height: 12.6px;
@@ -122,14 +122,14 @@
           border-top: none;
         }
       }
-      .rqau-hint {
+      .ricu-hint {
         display: block;
         padding: 15px;
         font-size: 14px;
         color: #666;
         line-height: 30px;
       }
-      .rqau-no-supported-hint {
+      .ricu-no-supported-hint {
         display: block;
         position: absolute;
         top: 0;
@@ -170,24 +170,24 @@
         text-align: center;
       }
     }
-    .rqau-img-shade {
+    .ricu-img-shade {
       box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.18);
       position: absolute;
       background-color: rgba(241, 242, 243, 0.8);
     }
 
-    .rqau-img-shade-1 {
+    .ricu-img-shade-1 {
       top: 0;
       left: 0;
     }
 
-    .rqau-img-shade-2 {
+    .ricu-img-shade-2 {
       bottom: 0;
       right: 0;
     }
   }
 
-  .rqau-operate {
+  .ricu-operate {
     position: absolute;
     right: 20px;
     bottom: 20px;
@@ -217,12 +217,12 @@
     }
   }
 
-  .rqau-range {
+  .ricu-range {
     position: relative;
     margin: 30px 0 10px 0;
     width: 240px;
     height: 18px;
-    .rqau-icon5,.rqau-icon6 {
+    .ricu-icon5,.ricu-icon6 {
       position: absolute;
       top: 0;
       width: 18px;
@@ -230,12 +230,12 @@
       border-radius: 100%;
       background-color: rgba(0, 0, 0, 0.08);
     }
-    .rqau-icon5:hover,.rqau-icon6:hover {
+    .ricu-icon5:hover,.ricu-icon6:hover {
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
       cursor: pointer;
       background-color: rgba(0, 0, 0, 0.14);
     }
-    .rqau-icon5 {
+    .ricu-icon5 {
       left: 0;
       &::before {
         position: absolute;
@@ -248,7 +248,7 @@
         background-color: #fff;
       }
     }
-    .rqau-icon6 {
+    .ricu-icon6 {
       right: 0;
       &::before {
         position: absolute;

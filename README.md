@@ -1,6 +1,6 @@
-# react-qiniu-avatar-upload
+# react-image-crop-upload
 
-A beautiful react component for avatar crop and upload. （react头像剪裁上传组件）.
+A beautiful react component for imgage crop and upload. （react图片剪裁上传组件）.
 
 **Notice**: This component is designed for pc, **not recommended for use on the mobile side**.(该组件适用于pc端，不推荐手机端使用)
 
@@ -13,10 +13,10 @@ A beautiful react component for avatar crop and upload. （react头像剪裁上�
 - 可以读取本地图片并进行剪辑，上传方法由外部提供
 
 ## 示例
-[点我](http://dai-siki.github.io/vue-image-crop-upload/example/demo.html).
+[点我](http://masongzhi.github.io/react-image-crop-upload).
 
 ## 截图
-![screenshot](screenshot/2.png)
+![WX20190228-103838@2x.png](https://upload-images.jianshu.io/upload_images/3708358-dd37c155ab2ac2d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ## 配置环境
 react
@@ -25,7 +25,7 @@ react
 ## 安装
 #### npm
 ```shell
-$ npm install react-qiniu-avatar-upload
+$ npm install react-image-crop-upload
 ```
 
 
@@ -46,8 +46,8 @@ $ npm install react-qiniu-avatar-upload
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.scss";
-import "react-qiniu-avatar-upload/index.css";
-import ReactQiniuAvatarUpload from "react-qiniu-avatar-upload";
+import "react-image-crop-upload/index.css";
+import ReactImageCropUpload from "react-image-crop-upload";
 
 class App extends Component {
   state = {
@@ -74,7 +74,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <button className="set-upload-btn" onClick={this.handleClick.bind(this)}>设置上传</button>
           {this.state.visible && (
-            <ReactQiniuAvatarUpload
+            <ReactImageCropUpload
               off={this.off.bind(this)}
               upload={this.upload.bind(this)}
             />
