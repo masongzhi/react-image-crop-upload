@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.scss";
-import "react-image-crop-upload/index.css";
+import "react-image-crop-upload/dist/index.css";
 import ReactImageCropUpload from "react-image-crop-upload";
 
 class App extends Component {
