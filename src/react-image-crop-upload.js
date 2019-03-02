@@ -39,7 +39,7 @@ class ReactImageCropUpload extends Component {
   };
 
   // 上传图片
-  upload() {
+  upload({ createImgUrl, blob, file }) {
     let child = this.cropRef.current,
       {
         url,
@@ -52,7 +52,7 @@ class ReactImageCropUpload extends Component {
         handleCropUploadFail,
         ki
       } = this.props,
-      { imgFormat, mime, createImgUrl } = child.state,
+      { imgFormat, mime } = child.state,
       fmData = new FormData();
     fmData.append(
       field,

@@ -265,7 +265,8 @@ class ReactImageCrop extends Component {
       blob = data2blob(createImgUrl, mime);
     this.props.upload({
       createImgUrl,
-      blob
+      blob,
+      file: this.state.file
     });
   }
 

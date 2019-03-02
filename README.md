@@ -9,6 +9,9 @@ A beautiful react component for imgage crop and upload. （react图片剪裁上�
 
 ## 更新日志
 
+#### @1.2.1
+- react-image-crop调用upload方法增加file参数
+
 #### @1.2.0
 - 修复package.json main指向不正确，导致引入错误
 

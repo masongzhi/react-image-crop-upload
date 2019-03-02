@@ -1,6 +1,6 @@
 {
   "name": "react-image-crop-upload",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A beautiful react component for imgage crop and upload. （react头像剪裁上传组件）.",
   "main": "dist/index.js",
   "repository": "git@github.com:masongzhi/react-image-crop-upload.git",
