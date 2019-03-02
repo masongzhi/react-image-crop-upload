@@ -34,7 +34,7 @@ class App extends Component {
           <button className="set-upload-btn" onClick={this.handleClick.bind(this)}>设置上传</button>
           {this.state.visible && (
             <ReactImageCropUpload
-              url="blog.masongzhi.cn/api/v1/public/testUpload"
+              url="http://blog.masongzhi.cn/api/v1/public/testUpload"
               withCredentials={true}
               off={this.off.bind(this)}
               handleCropUploadSuccess={this.handleCropUploadSuccess.bind(this)}
