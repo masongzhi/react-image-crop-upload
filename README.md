@@ -22,7 +22,7 @@ A beautiful react component for imgage crop and upload. （react图片剪裁上�
 - 可以读取本地图片并进行剪辑，上传方法由外部提供
 
 ## 示例
-[点我](http://masongzhi.github.io/react-image-crop-upload).
+[点我](http://react-image-crop-upload.masongzhi.cn).
 
 ## 截图
 ![WX20190228-103838@2x.png](https://user-gold-cdn.xitu.io/2019/2/28/16933ae6d78d03c3?w=1240&h=777&f=png&s=195290)
