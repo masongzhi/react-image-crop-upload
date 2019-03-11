@@ -39,7 +39,7 @@ class ReactImageCropUpload extends Component {
   };
 
   // 上传图片
-  upload({ createImgUrl, blob, file }) {
+  upload = ({ createImgUrl, blob, file }) => {
     let child = this.cropRef.current,
       {
         url,
@@ -52,13 +52,9 @@ class ReactImageCropUpload extends Component {
         handleCropUploadFail,
         ki
       } = this.props,
-      { imgFormat, mime } = child.state,
+      { imgFormat } = child.state,
       fmData = new FormData();
-    fmData.append(
-      field,
-      data2blob(createImgUrl, mime),
-      field + "." + imgFormat
-    );
+    fmData.append(field, data2blob(createImgUrl), field + "." + imgFormat);
 
     // 添加其他参数
     if (typeof params === "object" && params) {
@@ -107,15 +103,11 @@ class ReactImageCropUpload extends Component {
         handleCropUploadFail(sts, field, ki);
       }
     );
-  }
+  };
 
   render() {
     return (
-      <ReactImageCrop
-        {...this.props}
-        upload={this.upload.bind(this)}
-        ref={this.cropRef}
-      />
+      <ReactImageCrop {...this.props} upload={this.upload} ref={this.cropRef} />
     );
   }
 }

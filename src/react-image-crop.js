@@ -180,7 +180,7 @@ class ReactImageCrop extends Component {
     };
   }
 
-  changeFile(e) {
+  changeFile = e => {
     e.preventDefault();
     let files = e.target.files || e.dataTransfer.files;
     this.setState({
@@ -188,10 +188,10 @@ class ReactImageCrop extends Component {
     });
     this.setSourceImg(files[0]);
     this.setStep(2);
-  }
+  };
 
   // 设置图片源
-  setSourceImg(file) {
+  setSourceImg = file => {
     // this.$emit('src-file-set', file.name, file.type, file.size);
     const fr = new FileReader();
     fr.onload = e => {
@@ -199,10 +199,10 @@ class ReactImageCrop extends Component {
       this.startCrop();
     };
     fr.readAsDataURL(file);
-  }
+  };
 
   // 剪裁前准备工作
-  startCrop() {
+  startCrop = () => {
     let that = this,
       { width, height } = that.props,
       { ratio, scale, sourceImgUrl } = that.state,
@@ -250,9 +250,9 @@ class ReactImageCrop extends Component {
       });
       this.createImg();
     };
-  }
+  };
 
-  prepareUpload() {
+  prepareUpload = () => {
     // const putExtra = {
     //   fname: this.file.name,
     // }
@@ -261,24 +261,24 @@ class ReactImageCrop extends Component {
     // }
     // var observable = qiniu.upload(this.file, this.file.name, token, putExtra, config)
     // var subscription = observable.subscribe(observer) // 上传开始
-    const { createImgUrl, mime } = this.state,
-      blob = data2blob(createImgUrl, mime);
+    const { createImgUrl } = this.state,
+      blob = data2blob(createImgUrl);
     this.props.upload({
       createImgUrl,
       blob,
       file: this.state.file
     });
-  }
+  };
 
   /* 图片选择区域函数绑定
 		 ---------------------------------------------------------------*/
-  preventDefault(e) {
+  preventDefault = e => {
     e.preventDefault();
     return false;
-  }
+  };
 
   // 鼠标按下图片准备移动
-  imgStartMove(e) {
+  imgStartMove = e => {
     e.preventDefault();
     // 支持触摸事件，则鼠标事件无效
     if (this.state.isSupportTouch && !e.targetTouches) {
@@ -292,10 +292,10 @@ class ReactImageCrop extends Component {
     simd.x = scale.x;
     simd.y = scale.y;
     simd.on = true;
-  }
+  };
 
   // 鼠标按下状态下移动，图片移动
-  imgMove(e) {
+  imgMove = e => {
     e.preventDefault();
     // 支持触摸事件，则鼠标事件无效
     if (this.state.isSupportTouch && !e.targetTouches) {
@@ -333,10 +333,10 @@ class ReactImageCrop extends Component {
         y: rY
       }
     });
-  }
+  };
 
   // 生成需求图片
-  createImg(e) {
+  createImg = e => {
     let that = this,
       {
         mime,
@@ -378,29 +378,29 @@ class ReactImageCrop extends Component {
     that.setState({
       createImgUrl: canvas.toDataURL(mime)
     });
-  }
+  };
 
-  handleClick(e) {
+  handleClick = e => {
     if (e.target !== this.fileinput.current) {
       e.preventDefault();
       this.fileinput.current.click();
     }
-  }
+  };
 
   // 点击波纹效果
-  ripple(e) {
+  ripple = e => {
     effectRipple(e);
-  }
+  };
 
-  setStep(val) {
+  setStep = val => {
     if (val === 1) {
       this.fileinput.current.value = null;
     }
     this.setState({ step: val });
-  }
+  };
 
   // 按钮按下开始缩小
-  startZoomSub(e) {
+  startZoomSub = e => {
     let that = this,
       { scale } = that.state;
     this.setState({
@@ -420,10 +420,10 @@ class ReactImageCrop extends Component {
       }
     }
     zoom();
-  }
+  };
 
   // 缩放原图
-  zoomImg(newRange) {
+  zoomImg = newRange => {
     let that = this,
       { scale } = this.state,
       sourceImgMasking = this.sourceImgMasking,
@@ -469,10 +469,10 @@ class ReactImageCrop extends Component {
         that.createImg();
       }
     }, 300);
-  }
+  };
 
   // 按钮松开或移开取消缩小
-  endZoomSub(e) {
+  endZoomSub = e => {
     let { scale } = this.state;
     this.setState({
       scale: {
@@ -480,10 +480,10 @@ class ReactImageCrop extends Component {
         zoomSubOn: false
       }
     });
-  }
+  };
 
   // 按钮按下开始放大
-  startZoomAdd(e) {
+  startZoomAdd = e => {
     let that = this,
       { scale } = that.state;
     this.setState({
@@ -503,10 +503,10 @@ class ReactImageCrop extends Component {
       }
     }
     zoom();
-  }
+  };
 
   // 按钮松开或移开取消放大
-  endZoomAdd(e) {
+  endZoomAdd = e => {
     const { scale } = this.state;
     this.setState({
       scale: {
@@ -514,14 +514,14 @@ class ReactImageCrop extends Component {
         zoomAddOn: false
       }
     });
-  }
+  };
 
-  zoomChange(e) {
+  zoomChange = e => {
     this.zoomImg(e.target.value);
-  }
+  };
 
   // 顺时针旋转图片
-  rotateImg(e) {
+  rotateImg = e => {
     let {
         sourceImg,
         scale: { naturalWidth, naturalHeight }
@@ -547,9 +547,9 @@ class ReactImageCrop extends Component {
       sourceImgUrl: imgUrl
     });
     this.startCrop();
-  }
+  };
 
-  showFiles() {
+  showFiles = () => {
     const { sourceImgUrl, createImgUrl, file, scale } = this.state;
     const { noRotate, noCircle, noSquare } = this.props;
 
@@ -572,14 +572,14 @@ class ReactImageCrop extends Component {
               onDragOver={this.preventDefault}
               onDragEnter={this.preventDefault}
               onDrop={this.preventDefault}
-              onTouchStart={this.imgStartMove.bind(this)}
-              onTouchMove={this.imgMove.bind(this)}
-              onTouchEnd={this.createImg.bind(this)}
-              onTouchCancel={this.createImg.bind(this)}
-              onMouseDown={this.imgStartMove.bind(this)}
-              onMouseMove={this.imgMove.bind(this)}
-              onMouseUp={this.createImg.bind(this)}
-              onMouseOut={this.createImg.bind(this)}
+              onTouchStart={this.imgStartMove}
+              onTouchMove={this.imgMove}
+              onTouchEnd={this.createImg}
+              onTouchCancel={this.createImg}
+              onMouseDown={this.imgStartMove}
+              onMouseMove={this.imgMove}
+              onMouseUp={this.createImg}
+              onMouseOut={this.createImg}
               alt=""
             />
             <div
@@ -598,25 +598,25 @@ class ReactImageCrop extends Component {
               step="1"
               min="0"
               max="100"
-              onMouseMove={this.zoomChange.bind(this)}
-              onChange={this.zoomChange.bind(this)}
+              onMouseMove={this.zoomChange}
+              onChange={this.zoomChange}
             />
             <i
-              onMouseDown={this.startZoomSub.bind(this)}
-              onMouseOut={this.endZoomSub.bind(this)}
-              onMouseUp={this.endZoomSub.bind(this)}
+              onMouseDown={this.startZoomSub}
+              onMouseOut={this.endZoomSub}
+              onMouseUp={this.endZoomSub}
               className="ricu-icon5"
             />
             <i
-              onMouseDown={this.startZoomAdd.bind(this)}
-              onMouseOut={this.endZoomAdd.bind(this)}
-              onMouseUp={this.endZoomAdd.bind(this)}
+              onMouseDown={this.startZoomAdd}
+              onMouseOut={this.endZoomAdd}
+              onMouseUp={this.endZoomAdd}
               className="ricu-icon6"
             />
           </div>
           {!noRotate && (
             <div className="ricu-rotate">
-              <i onClick={this.rotateImg.bind(this)}>↻</i>
+              <i onClick={this.rotateImg}>↻</i>
             </div>
           )}
         </div>
@@ -640,7 +640,7 @@ class ReactImageCrop extends Component {
         </div>
       </div>
     );
-  }
+  };
 
   render() {
     const { width, height, off } = this.props;
@@ -658,8 +658,8 @@ class ReactImageCrop extends Component {
               onDragLeave={this.preventDefault}
               onDragOver={this.preventDefault}
               onDragEnter={this.preventDefault}
-              onClick={this.handleClick.bind(this)}
-              onDrop={this.changeFile.bind(this)}
+              onClick={this.handleClick}
+              onDrop={this.changeFile}
             >
               <i className="ricu-icon1">
                 <i className="ricu-icon1-arrow" />
@@ -679,13 +679,13 @@ class ReactImageCrop extends Component {
                 id="file"
                 type="file"
                 accept="image/png, image/jpeg, image/gif, image/jpg"
-                onChange={this.changeFile.bind(this)}
+                onChange={this.changeFile}
                 ref={this.fileinput}
               />
             </div>
           </div>
 
-          {/*<button onClick={this.upload.bind(this)}>上传</button>*/}
+          {/*<button onClick={this.upload}>上传</button>*/}
           <div style={{ display: step !== 2 && "none" }}>
             {this.showFiles()}
           </div>
@@ -701,7 +701,7 @@ class ReactImageCrop extends Component {
             <button
               style={{ display: step === 1 && "none" }}
               className="ricu-operate-btn"
-              onClick={this.prepareUpload.bind(this)}
+              onClick={this.prepareUpload}
               onMouseDown={this.ripple}
             >
               保存
