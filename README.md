@@ -9,7 +9,7 @@ A beautiful react component for imgage crop and upload. （react图片剪裁上�
 
 ## 更新日志
 
-#### @1.2.3
+#### @1.2.6
 - 改为箭头函数，函数调用不需要再bind(this)
 
 #### @1.2.1
